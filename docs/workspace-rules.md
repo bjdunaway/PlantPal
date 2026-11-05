@@ -69,7 +69,8 @@ Pull requests must not be merged automatically. Changes should remain open for r
 
 ## Scope and change control
 
-- Keep changes aligned with the documented product requirements and task plan.
-- Do not implement excluded features: photo identification, disease diagnosis, shopping, smart devices, social features, or payments.
-- Treat unresolved reminder timing, reminder frequency controls, notification method, snoozing, and plant notes as unapproved until explicitly resolved.
+- Keep changes aligned with the Analyst's Level 1 specification and the task plan in `docs/tasks.md`.
+- The selected stories `PP-01` through `PP-11` define the approved baseline scope.
+- Do not implement rejected features: plant identification, disease diagnosis, shopping or payments, smart devices or sensors, social features, shared plant management, multi-device syncing, public profiles, subscriptions, browsing a large plant catalog, or health guarantees.
+- Do not assume unspecified details such as notification technology, snooze duration or limits, schedule-adjustment semantics, watering-record edit rules, note editing/deletion, offline behavior, or authentication requirements.
 - Raise scope or requirement questions before making assumptions.
