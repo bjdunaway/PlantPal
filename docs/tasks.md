@@ -1,82 +1,108 @@
 # PlantPal Development Tasks
 
-This task list organizes proposed implementation work by feature. Acceptance criteria describe expected outcomes but are not implementation commitments. No features are implemented in this repository stage.
+This task list describes concrete development work for the baseline features. The stories remain **drafts pending Analyst final specification** and must not be treated as approved requirements. No features are implemented by this documentation change.
 
-## User stories
+## Baseline stories and tasks
 
-The following user stories are **drafts pending Analyst confirmation**. They should not be treated as approved requirements.
+### PP-01 — Add a plant to a personal list
 
-- As a plant owner, I want to add a plant to my personal list so that I can track its care.
-- As a plant owner, I want to select a plant type so that I can see relevant basic care information.
-- As a plant owner, I want to view recommended watering frequency so that I know when to check my plant.
-- As a plant owner, I want to record when I water a plant so that I can keep a care history.
-- As a plant owner, I want to view a plant's care history so that I can understand past care.
-- As a busy person, I want to receive watering reminders so that I do not forget to care for my plants.
+**Story (draft pending Analyst confirmation):** As a plant owner, I want to add a plant to my personal list so that I can track its care.
 
-## Feature tasks
+- **PP-01-T01 — Define the plant creation data contract.** Create the minimum validated fields and relationships required to create a plant.
+  - Acceptance criteria: The contract identifies required and optional fields, enforces valid data types and values, and rejects incomplete or invalid plant creation requests.
+- **PP-01-T02 — Implement plant creation in the API.** Store a valid plant and associate it with its approved owner reference and selected plant type.
+  - Acceptance criteria: A successful request creates one plant record, returns the created plant, persists the owner and plant type relationships, and returns a predictable error for invalid requests.
+- **PP-01-T03 — Implement the plant creation form in the client.** Create a form that collects the approved plant details and submits them to the API.
+  - Acceptance criteria: A user can enter the required information, submit the form, see a success state, and see a clear validation or server error when creation fails.
+- **PP-01-T04 — Implement personal plant-list retrieval.** Store and display the current plant owner's plants after they are created.
+  - Acceptance criteria: The API returns only plants belonging to the requesting plant owner's reference, and the client displays each returned plant with enough information to identify it.
 
-### Personal plant list
+### PP-02 — Select a plant type
 
-- **Task:** Define the data and interaction needed to add a plant to a user's personal list.
-  - Acceptance criteria: A user can create a plant entry with the minimum approved fields, see it in their personal list, and identify it separately from other users' plants.
-- **Task:** Define how a user edits or removes a plant entry.
-  - Acceptance criteria: An approved edit or removal action changes only the intended plant entry and preserves the expected access controls.
-- **Task:** Define how users access only their own plant list.
-  - Acceptance criteria: Authentication and authorization rules prevent one user from viewing or modifying another user's plants.
+**Story (draft pending Analyst confirmation):** As a plant owner, I want to select a plant type so that I can see relevant basic care information.
 
-### Plant type selection
+- **PP-02-T01 — Define supported plant types and their data.** Create the initial plant-type catalog and the basic care fields associated with each type.
+  - Acceptance criteria: Every supported type has a stable identifier, display name, and complete approved care information, including watering frequency.
+- **PP-02-T02 — Store plant types and plant-type relationships.** Implement persistent storage for plant types and the relationship between a plant and its type.
+  - Acceptance criteria: A created plant references exactly one valid plant type, and the selected type can be retrieved consistently from storage.
+- **PP-02-T03 — Implement plant-type selection in the client.** Create a selection control that lets a user choose from supported plant types.
+  - Acceptance criteria: A user can open the selector, view supported plant types, select one type, and submit that selection with a new plant.
+- **PP-02-T04 — Display the selected plant type.** Implement display of a plant's selected type in the plant list and plant details.
+  - Acceptance criteria: The selected type's display name is visible for each plant and remains correct after the plant is retrieved again.
 
-- **Task:** Define the available plant types and required selection behavior.
-  - Acceptance criteria: A user can select a valid plant type from the approved list, and the selected type is stored with the plant.
-- **Task:** Define how basic care information is associated with a plant type.
-  - Acceptance criteria: Each supported plant type has approved, consistently structured basic care information.
+### PP-03 — View basic care information and watering frequency
 
-### Basic care information and watering frequency
+**Story (draft pending Analyst confirmation):** As a plant owner, I want to view basic care information and watering frequency so that I know how to care for my plant.
 
-- **Task:** Define the fields included in basic plant care information.
-  - Acceptance criteria: Users can view the approved care fields for their selected plant type without receiving diagnostic claims.
-- **Task:** Define how watering frequency is displayed.
-  - Acceptance criteria: A user can view the recommended watering frequency associated with the plant type and understand how it applies to the plant.
+- **PP-03-T01 — Define the care-information response.** Create the API response structure for a plant's basic care information and recommended watering frequency.
+  - Acceptance criteria: The response includes all approved care fields, identifies the plant and plant type, and uses consistent units and labels for watering frequency.
+- **PP-03-T02 — Implement care-information retrieval in the API.** Retrieve and return the care information associated with a plant's selected type.
+  - Acceptance criteria: A request for a plant owned by the requesting plant owner returns its current plant-type care information, while a missing plant or another owner's plant returns a predictable error.
+- **PP-03-T03 — Implement care-information display in the client.** Create a plant details view that presents basic care information and watering frequency.
+  - Acceptance criteria: A user can select a plant and see the approved care fields and recommended watering frequency in a readable layout.
+- **PP-03-T04 — Test care-information accuracy and presentation.** Verify that displayed care information matches the selected plant type's stored data.
+  - Acceptance criteria: Automated or documented manual checks confirm that each supported plant type displays its own approved watering frequency and care fields.
 
-### Watering reminders
+### PP-04 — Receive watering reminders
 
-- **Task:** Confirm reminder timing and frequency controls before designing reminder behavior.
-  - Acceptance criteria: The approved rules define whether timing is based on plant type, user settings, per-plant settings, or another source.
-- **Task:** Confirm the notification method before implementation.
-  - Acceptance criteria: The approved rules identify the supported delivery channel and user expectations for notifications.
-- **Task:** Define reminder scheduling and notification behavior after approval.
-  - Acceptance criteria: Approved scenarios describe when reminders are created, sent, repeated, and stopped.
-- **Task:** Resolve snoozing behavior before implementation.
-  - Acceptance criteria: The approved rules state whether snoozing is supported, its duration and limits, and its effect on the next reminder.
+**Story (draft pending Analyst confirmation):** As a busy person, I want to receive watering reminders so that I do not forget to care for my plants.
 
-### Watering records
+The following tasks are blocked by unresolved product decisions. They must not be implemented until the dependencies are approved.
 
-- **Task:** Define the minimum information captured when a user records watering.
-  - Acceptance criteria: A user can record watering for a selected plant and the record is associated with that plant and user.
-- **Task:** Define how a successful watering record affects care state.
-  - Acceptance criteria: Approved behavior states whether and how watering updates the next watering reminder or schedule.
+- **PP-04-T01 — Define reminder scheduling rules.** Create scheduling rules only after reminder timing and frequency controls are approved.
+  - Dependencies: Reminder timing and frequency controls are unresolved.
+  - Acceptance criteria: The approved rules define when reminders are created, how often they repeat, and how watering or plant changes affect the schedule.
+- **PP-04-T02 — Implement reminder delivery.** Create and send reminders only after the notification method is approved.
+  - Dependencies: Notification method is unresolved.
+  - Acceptance criteria: The approved delivery channel receives a reminder for each due plant, and delivery failures are handled predictably.
+- **PP-04-T03 — Implement reminder state in the client.** Display reminder status only after the notification and scheduling rules are approved.
+  - Dependencies: Reminder timing, notification method, and snoozing behavior are unresolved.
+  - Acceptance criteria: A user can distinguish pending, delivered, and completed reminders using the approved states and see clear errors when reminder status cannot be loaded.
 
-### Care history
+### PP-05 — Record watering
 
-- **Task:** Define the events included in a plant's care history.
-  - Acceptance criteria: Users can view approved care events for a plant in a clear chronological order.
-- **Task:** Define how history is filtered or paginated if needed.
-  - Acceptance criteria: Users can find relevant past care events without losing access to older records.
+**Story (draft pending Analyst confirmation):** As a plant owner, I want to record when I water a plant so that I can keep a care history.
 
-### Plant notes
+- **PP-05-T01 — Define the watering-record data contract.** Create the validated fields required to associate a watering event with a plant and plant owner.
+  - Acceptance criteria: The contract defines the watering timestamp, plant reference, and any approved additional fields, and rejects invalid or incomplete records.
+- **PP-05-T02 — Implement watering-record creation in the API.** Store a watering event for a plant owned by the requesting plant owner.
+  - Acceptance criteria: A valid request creates one watering record, associates it with the correct plant and owner reference, and returns the created record or a predictable validation error.
+- **PP-05-T03 — Implement the watering action in the client.** Create a plant-owner action that records watering for the selected plant.
+  - Acceptance criteria: A user can trigger the action for a visible plant, receive confirmation after success, and see a clear error when recording fails.
+- **PP-05-T04 — Connect watering records to reminder state.** Update the approved reminder or next-watering state after a watering record is stored.
+  - Dependencies: Reminder timing, frequency controls, and snoozing behavior are unresolved.
+  - Acceptance criteria: Once approved, a successful watering record updates the relevant schedule according to the documented rules and does not create duplicate watering records.
 
-- **Task:** Resolve whether plant notes are in scope before implementation.
-  - Acceptance criteria: Product approval either includes or excludes free-form plant notes and defines any constraints.
-- **Task:** If approved, define note creation, editing, display, and removal behavior.
-  - Acceptance criteria: Users can manage only their own notes and see them in the approved location in the product.
+### PP-06 — View watering history
 
-## Cross-cutting tasks
+**Story (draft pending Analyst confirmation):** As a plant owner, I want to view a plant's watering history so that I can understand its past care.
 
-- **Task:** Confirm authentication and authorization requirements.
-  - Acceptance criteria: The team agrees on how users are identified and how access to plants, records, and reminders is protected.
-- **Task:** Define validation and error-handling expectations for client and API work.
-  - Acceptance criteria: Invalid plant data and failed requests have predictable, user-friendly handling.
-- **Task:** Define Supabase schema and migration approach before database implementation.
-  - Acceptance criteria: Approved entities, relationships, constraints, and migration ownership are documented.
-- **Task:** Define non-functional expectations for responsiveness and accessibility.
-  - Acceptance criteria: The team records minimum usability expectations for the first version.
+- **PP-06-T01 — Implement watering-history retrieval in the API.** Retrieve watering records for a plant owned by the requesting plant owner in chronological order.
+  - Acceptance criteria: The API returns only records belonging to the requested plant, orders them by watering time, and returns a predictable empty result or error as appropriate.
+- **PP-06-T02 — Implement watering-history display in the client.** Create a history view that lists a plant's watering events.
+  - Acceptance criteria: A user can open a plant's history and see each watering event's approved details in a clear chronological list.
+- **PP-06-T03 — Test watering-history integrity.** Verify that created watering records appear in history and plants belonging to other owners cannot be viewed.
+  - Acceptance criteria: Tests or documented manual checks confirm that valid records appear once, timestamps are displayed correctly, and access is limited to the plant owner.
+
+## Unconfirmed scope
+
+The following work is **not approved** and must not be treated as part of the baseline. It requires explicit product approval and a separate specification before development.
+
+- Editing plant details.
+- Deleting plants.
+- Account creation, login, logout, or other authentication flows.
+- Filtering, searching, or paginating care history.
+- Adding, editing, deleting, or displaying plant notes.
+- Snoozing reminders.
+- Configurable reminder timing or frequency controls beyond the approved baseline.
+- Notification delivery through an unapproved method.
+
+## Reminder dependencies
+
+The following decisions remain unresolved and block complete reminder implementation:
+
+- Reminder timing and frequency controls.
+- Notification method.
+- Snoozing reminders.
+- How watering affects the next reminder.
+- Plant notes, if they are later approved as part of care history.
